@@ -22,6 +22,7 @@ for land in bundeslaender:
     print(land)
     data = pd.read_csv(f"wikidata/{land}1.csv").fillna(np.nan).replace([np.nan], [None])
     mps = []
+    #First, create data set of matching Wikipedia links from both Wikipedia and Wikidata
     for unique_id in data["item"].unique():
         sub_data = data[data["item"] == unique_id]
         sub_data = sub_data.reset_index()
@@ -41,14 +42,11 @@ for land in bundeslaender:
     confirmed_mps = set(pediadata["Link"])
     final_mps = pd.DataFrame([row for i, row in mps.iterrows() if row["WikipediaLink"] in confirmed_mps]).drop("index", axis=1)
     confirmed_mps = set(final_mps["WikipediaLink"])
-    #Bisher: final_mps = Alle mps, die Teil von WikiData und Wikipedia sind
-    #Jetzt neu: zsp, das alle enthaelt, die nicht Teil von Wikidata, aber von Wikipedia sind
-    #           all_mps_mapping, das alle Periodenspezifischen Daten enthaelt
     zsp = []
     for i, row in pediadata.iterrows():
-        #Wenn kein Link auf Wikipedia, ist er auch nicht im bisherigen Datensatz - hinzufuegen
+        #If there is no link on Wikipedia, then there is no way to match with Wikidata - add a new entry
         if row["Link"] == "":
-            #Checken ob Geburtsdatum angegeben
+            #Checken if birth date is given on Wikidata
             if row["Born"] == "unknown" or int(row["Born"]) <= 1800:
                 zsp.append(pd.DataFrame({"MPID": mp_id, "WikiDataLink": "", "WikipediaLink": "", "Name": row["First Name"] + " " + row["Last Name"], "LastName": row["Last Name"],
                                          "Born": "", "SexOrGender": "", "Occupation": "", "Religion": "", "AbgeordnetenwatchID": ""}, index=[0]))
@@ -60,7 +58,7 @@ for land in bundeslaender:
                                     "Political Orientation": row["political_orientation"]})
             mp_id += 1
         else:
-            #Wenn Link auf Wikipedia, aber nicht in bisherigem Datensatz, hinzufuegen
+            #When link on Wikipedia, but not in current data set, then update
             if row["Link"] not in set(final_mps["WikipediaLink"]):
                 if row["Born"] == "unknown" or int(row["Born"]) <= 1800:
                     zsp.append(pd.DataFrame({"MPID": mp_id, "WikiDataLink": "", "WikipediaLink": row["Link"], "Name": row["First Name"] + " " + row["Last Name"], "LastName": row["Last Name"],
@@ -72,7 +70,7 @@ for land in bundeslaender:
                                         "Political Orientation": row["political_orientation"]})
                 mp_id += 1
             else:
-                #Wenn Link auf Wikipedia und in bisherigem Datensatz, dann Daten updaten und all_mps_mapping updaten
+                #When link on Wikipedia and in the current data set, then update
                 index = np.where([row["Link"] == x for x in final_mps["WikipediaLink"]])[0][0]
                 if final_mps["Born"].iloc[index] == "" and row["Born"] != "unknown":
                     final_mps["Born"].iloc[index] = datetime.strptime(str(row["Born"]) + "06", "%Y%m")

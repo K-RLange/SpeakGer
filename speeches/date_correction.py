@@ -1,16 +1,13 @@
 import os
 import pandas as pd
-import re
 from datetime import datetime, timedelta
 from pathlib import Path
-from collections import Counter
 import locale
-import pickle
 import warnings
 warnings.filterwarnings("ignore")
 locale.setlocale(locale.LC_TIME, 'de_DE.UTF-8')
 
-df = pd.read_excel("processed_sitzungsdaten.xlsx", "Sitzungsdaten")
+df = pd.read_excel("processed_session_dates.xlsx", "Sitzungsdaten")
 kuerzel_list = set(df["Bundesland"])
 all_kuerzel = [x[:-7] for x in os.listdir("clean/") if ".pickle" in x and "Bundestag" not in x and "Bayern" not in x and x not in os.listdir("dates")]
 path = "clean/"
@@ -20,7 +17,7 @@ for kuerzel in all_kuerzel:
     #data = data.reset_index()
     data = data.sort_values(["period", "session"])
     data = data.reset_index()
-    df = pd.read_excel("processed_sitzungsdaten.xlsx", "Sitzungsdaten")
+    df = pd.read_excel("processed_session_dates.xlsx", "Sitzungsdaten")
     df = df[df["Bundesland"] == kuerzel]
     for i, session in data.iterrows():
         period = session["period"]

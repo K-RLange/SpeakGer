@@ -1,17 +1,14 @@
 import pickle
 import re
-import logging
 import os
 import datetime
-import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import locale
 import sys
-from pathlib import Path
 locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
 
-kuerzel = os.listdir("/work/smkblang/drucksachen/final_data_quality")[int(sys.argv[1])]
+state = os.listdir("ocr")[int(sys.argv[1])]
 
 # <editor-fold desc="RegEx Patterns">
 
@@ -64,13 +61,14 @@ end_patterns = re.compile('|'.join(
 # <editor-fold desc="Functions">
 
 def get_period_from_file(file):
+    """Get the period and session number from a file name. Special cases if the parliament is Bayern or it is an early legislative period of Baden-Württemberg"""
     try:
-        if kuerzel == "BWOld":
+        if state == "BWOld":
             if re.search("\D*([\d]+)-([\d]+).pickle", file):
                 return {"date": datetime.datetime(int(re.search("\D*([\d]+)-([\d]+).pickle", file).group(1)), 10, 1), "period": "unknown", "session": "unknown"}
             else:
                 return {"date": datetime.datetime(int(re.search("\D*([\d]+).pickle", file).group(1)), 4, 1), "period": "unknown", "session": "unknown"}
-        elif "Bayern" in kuerzel:
+        elif "Bayern" in state:
             reg = re.search(r"\D*([\d-]+)\D+([\d-]+)\D*.*.pickle", file)
             if reg:
                 date = datetime.datetime.strptime(reg.group(2), "%d%m%y")
@@ -92,6 +90,7 @@ def get_period_from_file(file):
 
 #Hier werden erstmal nur die Sitzungen gesplittet, nicht die Reden!
 def split_texts(full_texts, single_text=True, file=""):
+    """Cuts of the table of contents and appendix of a session"""
     full_texts = "\n".join(full_texts)
     full_texts = full_texts.replace("-\n", "")
     if not single_text:
@@ -174,12 +173,12 @@ def split_texts(full_texts, single_text=True, file=""):
 # </editor-fold>
 
 # <editor-fold desc="Execution and date/session correction">
-
-path = "/work/smkblang/drucksachen/final_data_quality/" + kuerzel + "/"
+#Baden-Württemberg has a different procedure as the pdf-files contained multiple plenary sessions at once
+path = "ocr/" + state + "/"
 files = os.listdir(path)
 full_data = []
 for x in tqdm(files):
-    if kuerzel == "BWOld":
+    if state == "BWOld":
         bw_splits = pd.read_excel("protokollebawue.xlsx", index_col=None)
         bw_splits["Protokollband"] = [str(x) for x in bw_splits["Protokollband"]]
         bw_splits = bw_splits.loc[bw_splits["Protokollband"] == x[:-7], :].reset_index()
@@ -195,8 +194,8 @@ for x in tqdm(files):
     else:
         id = get_period_from_file(x)
         id = f"{id['period']}_{id['session']}"
-        if not os.path.isfile(f"clean/{kuerzel}/{id}.json") or kuerzel == "BayernWP02":
-            if kuerzel != "BWOld":
+        if not os.path.isfile(f"clean/{state}/{id}.json") or state == "BayernWP02":
+            if state != "BWOld":
                 data = pickle.load(open(path + x, "rb"))
             split_data = split_texts(data, file=x)
             split_data["file"] = x
@@ -211,20 +210,20 @@ def extend_inside(_list):
             new_list.append(element)
     return new_list
 
-if kuerzel == "BWOld":
+if state == "BWOld":
     meta = pd.read_csv("Baden-Wuerttemberg.txt", sep=";")
 true_periods = list(map(get_period_from_file, full_data["file"]))
 for x in range(len(full_data)):
     for key in true_periods[x].keys():
-        if kuerzel != "BWOld":
+        if state != "BWOld":
             full_data[key].iloc[x] = true_periods[x][key]
             if true_periods[x][key] != "unknown":
                 full_data[key].iloc[x] = true_periods[x][key]
-            if kuerzel == "BayernWP01":
+            if state == "BayernWP01":
                 full_data["period"] = 1
 
 
-if kuerzel == "BayernWP02":
+if state == "BayernWP02":
     full_data = full_data.sort_values("date")
     period = 2
     for x in range(len(full_data) - 1):
@@ -241,9 +240,5 @@ try:
 except:
     full_data = full_data.sort_values(["period", "session"])
 full_data = full_data.set_index("file")
-#for session in full_data:
-#    if not session.empty:
-#        id = str(session.iloc[0]["Period"]) + "_" + str(session.iloc[0]["Session"])
-#        session.to_json(f"clean/{kuerzel}/{id}.json", orient="records", lines=True)
-pickle.dump(full_data, open("clean/" + kuerzel + ".pickle", "wb"))
+pickle.dump(full_data, open("clean/" + state + ".pickle", "wb"))
 # </editor-fold>

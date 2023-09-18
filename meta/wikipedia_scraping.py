@@ -169,7 +169,6 @@ for df in brd_politicians:
             b["Party"] = "afd"
         elif "die partei" in b["Party"]:
             orientation.append("linksliberal")
-            b["Party"] = "sonstige"
         elif "kpd" in b["Party"] or "dkp" in b["Party"]:
             orientation.append("kommunistisch")
         elif "bündnis 90" in b["Party"] or "grüne" in b["Party"]:
@@ -177,14 +176,10 @@ for df in brd_politicians:
             b["Party"] = "die grünen"
         elif "linke" in b["Party"] or "pds" in b["Party"] or "al" in b["Party"]:
             orientation.append("linkspopulistisch")
-            if "al" in b["Party"]:
-                b["Party"] = "sonstige"
             b["Party"] = "linke/pds"
         elif "ssw" in b["Party"] or "fdp" in b["Party"] \
                 or "fdv" in b["Party"] or "dps" in b["Party"]:
             orientation.append("liberal")
-            if "fdp" not in b["Party"]:
-                b["Party"] = "sonstige"
         elif "zentrum" in b["Party"] or "cdu" in b["Party"] \
                 or "csu" in b["Party"] or "lkr" in b["Party"] \
                 or "bvp" in b["Party"] or "dsu" in b["Party"] \
@@ -200,16 +195,8 @@ for df in brd_politicians:
                     b["Party"] = "cdu"
             elif "csu" in b["Party"]:
                 b["Party"] = "csu"
-            else:
-                b["Party"] = "sonstige"
         else:
             orientation.append("sonstiges")
-
-
-        if b["Party"] not in parties:
-            b["Party"] = "sonstiges"
-        if b["Constituency"] not in places:
-            b["Constituency"] = "sonstiges"
     df["political_orientation"] = orientation
 
 pickle.dump(brd_politicians, open("politiker/brd.pickle", "wb"))

@@ -8,7 +8,7 @@ from pathlib import Path
 from math import ceil
 
 max_year = 2024
-start_path = "C:/Users/kalange/Documents/Daten_large/Landtage_pdfs"
+start_path = "pdfs/"
 
 
 def get_pdfs(orig_url, kuerzel, additional_zeroes=True, double=False, switch=False,
@@ -67,23 +67,9 @@ def transform_session(session):
         return str(session)
 
 
-# <editor-fold desc="Nordrhein Westfahlen">
-path = Path(f"{start_path}/Nordrhein-Westfalen")
-path.mkdir(parents=True, exist_ok=True)
-for periode in range(18, (18+ceil((max_year-2022)/4))):
-    for session in range(1, 360):
-        if os.path.exists(f'{path}/{periode}_{session}.pdf'):
-            continue
-        url = 'https://www.landtag.nrw.de/portal/WWW/dokumentenarchiv' \
-              '/Dokument/MMP{}-{}.pdf'.format(periode, session)
-        r = requests.get(url, stream=True)
-        if r.status_code == 404:
-            break
-        with open(f'{path}/{periode}_{session}.pdf', 'wb') as f:
-            f.write(r.content)
-# </editor-fold>
-
 # <editor-fold desc="Baden-Württemberg">
+path = Path(f"{start_path}/Baden-Württemberg")
+path.mkdir(parents=True, exist_ok=True)
 alternative_url = "https://www.landtag-bw.de/files/live/sites/LTBW/files/dokumente/WP{}/Plp/{}_0{}_{}{}{}.pdf"
 periode = 17
 session = 67
@@ -181,7 +167,7 @@ for periode in range(20, (20+ceil((max_year-2022)/4))):
 # </editor-fold>
 
 # <editor-fold desc="Hamburg">
-print("Weiss noch nicht, wie man Hamburg automatisiert scrapet")
+print("Hamburg is not automized yet")
 # </editor-fold>
 
 # <editor-fold desc="Hessen">
@@ -230,6 +216,22 @@ for periode in range(18, (18+ceil((max_year-2022)/4))):
 
 # </editor-fold>
 
+# <editor-fold desc="Nordrhein Westfahlen">
+path = Path(f"{start_path}/Nordrhein-Westfalen")
+path.mkdir(parents=True, exist_ok=True)
+for periode in range(18, (18+ceil((max_year-2022)/4))):
+    for session in range(1, 360):
+        if os.path.exists(f'{path}/{periode}_{session}.pdf'):
+            continue
+        url = 'https://www.landtag.nrw.de/portal/WWW/dokumentenarchiv' \
+              '/Dokument/MMP{}-{}.pdf'.format(periode, session)
+        r = requests.get(url, stream=True)
+        if r.status_code == 404:
+            break
+        with open(f'{path}/{periode}_{session}.pdf', 'wb') as f:
+            f.write(r.content)
+# </editor-fold>
+
 # <editor-fold desc="Rheinland-Pfalz">
 path = Path(f"{start_path}/Rheinland-Pfalz")
 path.mkdir(parents=True, exist_ok=True)
@@ -273,7 +275,7 @@ for periode in range(17, (17+ceil((max_year-2022)/4))):
 # </editor-fold>
 
 # <editor-fold desc="Sachsen">
-print("Sachsen funktioniert nur auf Windows mit Ueberwachung des Downloads")
+print("Sachsen only works when having the browser window open at all times")
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 import pyautogui
@@ -342,8 +344,8 @@ for periode in range(20, (20+ceil((max_year-2022)/4))):
 # </editor-fold>
 
 # <editor-fold desc="Thueringen">
-print("Thueringen funktioniert nur auf Windows mit Ueberwachung des Downloads")
-path = Path(f"{start_path}/Thueringen")
+print("Thüringen only works when having the browser window open at all times")
+path = Path(f"{start_path}/Thüringen")
 path.mkdir(parents=True, exist_ok=True)
 from selenium.webdriver.common.by import By
 import pyautogui
