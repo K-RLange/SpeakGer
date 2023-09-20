@@ -39,7 +39,7 @@ The file all_mps_meta.csv contains the following meta information:
 - SexOrGender: string. Information on the sex or gender of the mp. Disclaimer: This infomation was taken from WikiData, which does not seem to differentiate between sex or gender.
 - Occupation: list. Occupation(s) of the mp.
 - Religion: string. Religious believes of the mp.
-- AbgeordnetenwatchID: int. ID of the mp on the website [Abgeordnetenewatch](https://www.abgeordnetenwatch.de/).
+- AbgeordnetenwatchID: int. ID of the mp on the website [Abgeordnetenwatch](https://www.abgeordnetenwatch.de/).
 
 ## Usage for qualitative research
 Currently, there is no option to process the corpus in a qualitative way such as e.g. [Open Parliament TV](https://openparliament.tv/). We are however open to enabling users to process the speeches in a similar way in the future if we find an appropiate way of doing so.
