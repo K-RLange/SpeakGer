@@ -11,7 +11,7 @@ When using this data set in your work, please cite
 @inproceedings{SpeakGer,
   authors={Lange, Kai-Robin and Jentsch, Carsten},
   title={SpeakGer: A meta-data enriched speech corpus of German state and federal parliaments},
-  booktitle={Proceedings of the 3rd Workshop on Computational Linguistics for Political Text Analysis},
+  booktitle={Proceedings of the 3rd Workshop on Computational Linguistics for Political Text Analysis @ KONVENS 2023},
   year={2023},
   moth={sep}
 }
