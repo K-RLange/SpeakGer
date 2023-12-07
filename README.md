@@ -1,9 +1,9 @@
-[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://lwus.statistik.tu-dortmund.de/) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](mailto:kalange@statistik.tu-dortmund.de)
+[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://sites.google.com/view/cpss2023konvens/home-page) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](mailto:kalange@statistik.tu-dortmund.de)
 # SpeakGer
 
 **As the download-platform BERD@NFDI is currently in its beta-phase, there is currently no public access to the corpus yet. You can however write me a mail and you will be granted free access to the beta-version of the platform and be able to download the corpus.**
 
-This GitHub-repository provides an overview of the functions used to create the "SpeakGer" corpus. It consists of a total of 15,452,593 speeches of German politicians from the German Bundestag as well as all 16 German federal state parliaments from 1949 to 2023. We aim to update this data set on a regular basis so that the plenary sessions stay up to date.
+This GitHub-repository provides an overview of the functions used to create the "SpeakGer" corpus. It consists of a total of 15,452,593 speeches of German politicians from the German Bundestag as well as all 16 German federal state parliaments from 1949 to 2023. The debates are separated into individual speeches which are enriched with meta data identifying the speaker as a member of the parliament (mp). We aim to update this data set on a regular basis so that the plenary sessions stay up to date.
 
 ## Citation
 When using this data set in your work, please cite
@@ -19,12 +19,12 @@ When using this data set in your work, please cite
 ## Download and data structure
 **As the download-platform BERD@NFDI is currently in its beta-phase, there is currently no public access to the corpus yet. You can however write me a mail and you be granted free access to the beta-version of the platform and be able to download the corpus.**
 
-The meta data is separated into two different types: time-specific meta-data that contains pnly information for a legislative period but can change over time (e.g. the party or constituency of an mp) and meta-data that is considered fixed, such as the birth date or the name of a speaker. The former information are stored aong with the speeches as it is considered temporal information of that point in time, but are additionally stored in the file all_mps_mapping.csv if there is the need to double-check something. The rest of the meta-data are stored in the file all_mps_meta.csv. The meta-data from this file can be matched with a speech by comparing the speaker ID-variable "MPID".
+The meta data is separated into two different types: time-specific meta-data that contains only information for a legislative period but can change over time (e.g. the party or constituency of an mp) and meta-data that is considered fixed, such as the birth date or the name of a speaker. The former information are stored aong with the speeches as it is considered temporal information of that point in time, but are additionally stored in the file all_mps_mapping.csv if there is the need to double-check something. The rest of the meta-data are stored in the file all_mps_meta.csv. The meta-data from this file can be matched with a speech by comparing the speaker ID-variable "MPID".
 The speeches of each parliament are saved in a csv format. Along with the speeches, they contain the following meta-data:
 - Period: int. The period in which the speech took place
 - Session: int. The session in which the speech took place
 - Chair: boolean. The information if the speaker was the chair of the plenary session
-- Interjection: voolean. The information if the speech is a comment or an interjection from the crowd
+- Interjection: boolean. The information if the speech is a comment or an interjection from the crowd
 - Party: list (e.g. \["cdu"\] or \["cdu", "fdp"\] when having more than one speaker during an interjection). List of the party of the speaker or the parties whom the comment/interjection references 
 - Consituency: string. The consituency of the speaker in the current legislative period
 - MPID: int. The ID of the speaker, which can be used to get more meta-data from the file all_mps_meta.csv
