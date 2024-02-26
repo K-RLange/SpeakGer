@@ -1,4 +1,4 @@
-[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://sites.google.com/view/cpss2023konvens/home-page) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](mailto:kalange@statistik.tu-dortmund.de)
+[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://aclanthology.org/2023.cpss-1.3.pdf) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](mailto:kalange@statistik.tu-dortmund.de)
 # SpeakGer
 
 **As the download-platform BERD@NFDI is currently in its beta-phase, there is currently no public access to the corpus yet. You can however write me a mail and you will be granted free access to the beta-version of the platform and be able to download the corpus.**
