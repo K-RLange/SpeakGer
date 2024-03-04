@@ -1,7 +1,7 @@
-[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://aclanthology.org/2023.cpss-1.3.pdf) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](mailto:kalange@statistik.tu-dortmund.de)
+[![Paper](https://badgen.net/badge/paper/CPSS@Konvens23/red?icon=firefox)](https://aclanthology.org/2023.cpss-1.3.pdf) [![Data set](https://badgen.net/badge/dataset/BERD@NFDI/green?icon=firefox)](https://berd-platform.de/records/g3225-rba63)
 # SpeakGer
 
-**As the download-platform BERD@NFDI is currently in its beta-phase, there is currently no public access to the corpus yet. You can however write me a mail and you will be granted free access to the beta-version of the platform and be able to download the corpus.**
+**BERD@NFDI has now left its beta-phase, so the corpus is now [publicly available for download!](https://berd-platform.de/records/g3225-rba63)**
 
 This GitHub-repository provides an overview of the functions used to create the "SpeakGer" corpus. It consists of a total of 15,452,593 speeches of German politicians from the German Bundestag as well as all 16 German federal state parliaments from 1949 to 2023. The debates are separated into individual speeches which are enriched with meta data identifying the speaker as a member of the parliament (mp). We aim to update this data set on a regular basis so that the plenary sessions stay up to date.
 
